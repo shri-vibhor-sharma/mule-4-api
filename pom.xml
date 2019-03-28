@@ -33,9 +33,8 @@
                     </sharedLibraries>
                 </configuration>
 			</plugin>
-		</plugins>
-		
-		<plugin>
+			
+			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
@@ -72,7 +71,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			
+		</plugins>
+		
+		
+			
 	</build>
 
 	<dependencies>
