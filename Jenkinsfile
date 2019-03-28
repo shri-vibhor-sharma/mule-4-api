@@ -1,10 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('error') {
+    stage('test') {
       steps {
-        echo 'pulling code from jenkins'
-        sh 'mvn clean test'
+        powershell 'mvn clean test'
       }
     }
   }
