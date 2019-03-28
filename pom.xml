@@ -34,6 +34,45 @@
                 </configuration>
 			</plugin>
 		</plugins>
+		
+		<plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<classifier>mule-application</classifier>
+					<cloudHubDeployment>
+							<artifact>target/${project.artifactId}-${project.version}-mule-application.jar</artifact>
+							<uri>https://anypoint.mulesoft.com</uri>
+							<muleVersion>${app.runtime}</muleVersion>
+							<username>venkatakarthikduddu</username>
+							<password>Karthik123@Deloitte</password>
+							<!-- <server>stericycle-anypoint</server> -->
+							<applicationName>${artifactId}</applicationName>
+							<environment>Sandbox</environment>
+							<!--businessGroup>${cloudhub.businessgroups}</businessGroup-->
+							<workers>1</workers>
+							<workerType>Micro</workerType>
+							<deploymentTimeout>100000</deploymentTimeout>
+							<!-- <redeploy>true</redeploy> -->
+							<properties>
+								<env>${env}</env>
+								<key>${key}</key>
+							</properties>
+					</cloudHubDeployment>
+				</configuration>
+				<executions>
+					<execution>
+						<id>deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 	</build>
 
 	<dependencies>
