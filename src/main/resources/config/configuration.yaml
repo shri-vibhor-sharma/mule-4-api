@@ -1,0 +1,10 @@
+http:
+  host: "0.0.0.0"
+  port: "8991"
+  basepath: "/testprops"
+
+netsuite:
+  username: "vibhor"
+  password: "sharma"
+
+secureProperties: ["netsuite.username","netsuite.password"]    

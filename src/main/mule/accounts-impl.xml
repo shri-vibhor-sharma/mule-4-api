@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="fed4e4b9-f42e-41d3-8651-a47e6c9d13d6" >
+		<db:mssql-connection host="mc4w00178.itcs.softwaregrp.net" port="2048" user="muleesbdev001" password="Two.fox-33" databaseName="MULETEST" />
+	</db:config>
+	<flow name="accounts-implFlow" doc:id="fc65cc0e-7d40-45c6-95b5-84a4daaaa569" >
+		<http:listener doc:name="Listener" doc:id="64cd621f-4560-4fbb-ad69-84c96ccb6ede" config-ref="accounts-httpListenerConfig" path="/db"/>
+		<db:select doc:name="Select" doc:id="9951487f-136a-4170-b39a-291182714a76" config-ref="Database_Config">
+			<db:sql >select * from dbo.BATCH_AUDIT where FLOW_NAME='swt-ice-netsuite-je' order by [TIMESTAMP] desc;</db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="763e796a-43f9-4d2b-8768-7e56fa91bae0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+	Execution_id : $.EXECUTION_ID,
+	filename : $.SUCCESSLIST
+} filter ($.successList != null)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="accounts-implFlow1" doc:id="449cc03b-7a73-4101-8440-22b022736f38" >
+		<http:listener doc:name="Listener" doc:id="71701244-16d7-4a94-928c-b6a4d556357c" config-ref="accounts-httpListenerConfig" path="/ranu"/>
+		<set-payload value="${netsuite.username}" doc:name="Set Payload" doc:id="8734a0b2-4802-47ed-8bee-90b9f4c608c0" />
+	</flow>
+</mule>
